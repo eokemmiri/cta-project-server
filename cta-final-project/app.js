@@ -2,11 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const getRoutes = require('./getRoutes');
 const getStops = require('./getStops');
+const getDirections = require('./getDirections'); // Import the updated getDirections function
+
 
 const app = express();
 const PORT = 8080;
 
-// Define a route to fetch CTA route information
+// CTA route information
+// http://localhost:8080/routes
 app.get('/routes', async (req, res) => {
     try {
         const routes = await getRoutes();
@@ -16,6 +19,7 @@ app.get('/routes', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch route information' });
     }
 });
+
 
 // Define a route to fetch CTA stops information
 app.get('/stops', async (req, res) => {
@@ -27,6 +31,22 @@ app.get('/stops', async (req, res) => {
     } catch (error) {
         console.error('Error fetching routes:', error);
         res.status(500).json({ error: 'Failed to fetch route information' });
+
+// CTA directions for a specific route
+// http://localhost:8080/directions?routeId=81
+app.get('/directions', async (req, res) => {
+    const { routeId } = req.query; // Extract routeId from query parameters
+
+    if (!routeId) {
+        return res.status(400).json({ error: 'Route ID is required' });
+    }
+
+    try {
+        const directions = await getDirections(routeId);
+        res.status(200).json(directions);
+    } catch (error) {
+        console.error('Error fetching directions:', error);
+        res.status(500).json({ error: 'Failed to fetch directions' });
     }
 });
 
