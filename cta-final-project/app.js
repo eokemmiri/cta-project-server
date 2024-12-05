@@ -31,6 +31,7 @@ app.get('/stops', async (req, res) => {
     } catch (error) {
         console.error('Error fetching routes:', error);
         res.status(500).json({ error: 'Failed to fetch route information' });
+    }});
 
 // CTA directions for a specific route
 // http://localhost:8080/directions?routeId=81
@@ -40,7 +41,6 @@ app.get('/directions', async (req, res) => {
     if (!routeId) {
         return res.status(400).json({ error: 'Route ID is required' });
     }
-
     try {
         const directions = await getDirections(routeId);
         res.status(200).json(directions);
