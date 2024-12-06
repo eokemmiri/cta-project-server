@@ -2,8 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const getRoutes = require('./getRoutes');
 const getStops = require('./getStops');
-const getDirections = require('./getDirections'); // Import the updated getDirections function
+const getDirections = require('./getDirections'); 
 const getStopsAway = require('./stopsAway');
+const getDirForStops = require('./getDirForStops');
+
 
 
 const app = express();
@@ -82,6 +84,26 @@ app.get('/stopsaway', async (req, res) => {
       res.status(500).json({ error: 'Failed to calculate stops away' });
     }
   });
+
+  // getDirForStops (NONTRIVIAL - mir)
+  // http://localhost:8080/directions-between-stops?routeId=1&startStop=17301&endStop=17295
+  app.get('/directions-between-stops', async (req, res) => {
+    const { routeId, startStop, endStop } = req.query;
+
+    if (!routeId || !startStop || !endStop) {
+        return res.status(400).json({ error: 'Route ID, start stop, and end stop are required.' });
+    }
+
+    try {
+        const result = await getDirForStops(routeId, startStop, endStop);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error determining direction for stops:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 // Start the server
 app.listen(PORT, () => {
