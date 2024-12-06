@@ -2,13 +2,16 @@ const axios = require('axios');
 
 const CTA_API_KEY = process.env.CTA_API_KEY;
 
-async function getStops(rt, dir) {
-    const baseURL = `http://www.ctabustracker.com/bustime/api/v2/getstops`;
+async function getStops(route, direction) {
+    if (!route || !direction) {
+        throw new Error('Route and direction parameters are required');
+    }
 
+    const baseURL = `http://www.ctabustracker.com/bustime/api/v2/getstops`;
     const params = {
         key: CTA_API_KEY,
-        rt: rt,
-        dir: dir,
+        rt: route,
+        dir: direction,
         format: 'json',
     };
 
