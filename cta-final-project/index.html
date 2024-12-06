@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTA Bus Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: center;
+            padding: 0.5rem;
+        }
+        nav a {
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .content {
+            padding: 2rem;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+        select, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CTA Bus Tracker</h1>
+    </header>
+
+    <nav>
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('nontrivial1')">Nontrivial 1</a>
+        <a href="#" onclick="showPage('nontrivial2')">Nontrivial 2</a>
+        <a href="#" onclick="showPage('nontrivial3')">Nontrivial 3</a>
+    </nav>
+
+    <div id="home" class="content">
+        <h2>Welcome to the CTA Bus Tracker</h2>
+        <p>Select a page from the navigation menu to get started.</p>
+    </div>
+
+    <div id="nontrivial1" class="content hidden">
+        <h2>Nontrivial 1</h2>
+        <p>This page could contain the first non-trivial functionality.</p>
+    </div>
+
+    <div id="nontrivial2" class="content hidden">
+        <h2>Nontrivial 2</h2>
+        <p>This page could contain the second non-trivial functionality.</p>
+    </div>
+
+    <div id="nontrivial3" class="content hidden">
+        <h2>Nontrivial 3</h2>
+        <div class="container">
+            <h1>Choose Two Stops</h1>
+            <label for="startStop">Select Start Stop:</label>
+            <select id="startStop">
+                <option value="14266">Ridge & Greenleaf</option>
+                <option value="17301">Sheridan & Lincoln</option>
+                <option value="14334">Ridge & Brummel</option>
+                <option value="3517">Howard & Ridge</option>
+                <option value="17295">Sheridan & Foster</option>
+                <option value="14262">Ridge & Main</option>
+                <option value="14692">Chicago Avenue & Davis</option>
+                <option value="12691">Ridge & Davis</option>
+            </select>
+
+            <label for="endStop">Select End Stop:</label>
+            <select id="endStop">
+                <option value="14266">Ridge & Greenleaf</option>
+                <option value="17301">Sheridan & Lincoln</option>
+                <option value="14334">Ridge & Brummel</option>
+                <option value="3517">Howard & Ridge</option>
+                <option value="17295">Sheridan & Foster</option>
+                <option value="14262">Ridge & Main</option>
+                <option value="14692">Chicago Avenue & Davis</option>
+                <option value="12691">Ridge & Davis</option>
+            </select>
+
+            <button id="getDirectionBtn">Get Direction</button>
+
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.content');
+            pages.forEach(page => page.classList.add('hidden'));
+
+            // Show the selected page
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+    </script>
+    <script src="script.js"></script>
+
+</body>
+</html>
