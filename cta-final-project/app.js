@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const getRoutes = require('./getRoutes');
 const getStops = require('./getStops');
 const getDirections = require('./getDirections'); 
@@ -10,6 +11,10 @@ const getDirForStops = require('./getDirForStops');
 
 const app = express();
 const PORT = 8080;
+
+// Serve static files (index.html, script.js)
+// http://localhost:8080/index.html
+app.use(express.static(path.join(__dirname)));
 
 // CTA route information
 // http://localhost:8080/routes
@@ -86,7 +91,7 @@ app.get('/stopsaway', async (req, res) => {
   });
 
   // getDirForStops (NONTRIVIAL - mir)
-  // http://localhost:8080/directions-between-stops?routeId=1&startStop=17301&endStop=17295
+  // http://localhost:8080/directions-between-stops?routeId=1&startStop=17295&endStop=14334
   app.get('/directions-between-stops', async (req, res) => {
     const { routeId, startStop, endStop } = req.query;
 
