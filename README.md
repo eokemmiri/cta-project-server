@@ -14,9 +14,16 @@ Please download code file as .zip. Then unzip the file to locate associated file
 2. Open preferred terminal and switch into unzipped project folder.
 3. Build Docker image using build command.
 4. Run Docker image using run command.
-5. This will start the server and provide the associated link for the web application.
-6. Follow the Link to interact with client side of the application.
-7. Each tab holds the associated non-trivial functions, click through each function to learn useful information about the 201 CTA bus route!
+5. For MAC users run these commands:
+      6. chmod 755 *.bash      
+      ./docker-build.bash      
+      ./docker-run.bash
+7. For Windows users run these commands:
+      8. ./docker-build.bat      
+         ./docker-run.bat
+9. This will start the server and provide the associated link for the web application.
+10. Follow the Link to interact with client side of the application.
+11. Each tab holds the associated non-trivial functions, click through each function to learn useful information about the 201 CTA bus route!
 
 
 **To run web server (without client side):**
