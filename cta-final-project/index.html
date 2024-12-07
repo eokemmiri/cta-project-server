@@ -57,6 +57,13 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+        #stopsresult {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
 
         .predictions-list {
         margin-top: 20px;
@@ -110,7 +117,30 @@
 
     <div id="nontrivial1" class="content hidden">
         <h2>Nontrivial 1</h2>
-        <p>This page could contain the first non-trivial functionality.</p>
+        <div class="container">
+            <h1>Choose Two Stops on the 201 Route</h1>
+    
+            <label for="direction">Select Direction:</label>
+            <select id="direction">
+                <option value="" disabled selected>Select Direction</option>
+                <option value="eastbound">Eastbound</option>
+                <option value="westbound">Westbound</option>
+            </select>
+    
+            <label for="currentStop">Select Start Stop:</label>
+            <select id="currentStop">
+                <option value="" disabled selected>Select Start Stop</option>
+            </select>
+    
+            <label for="destStop">Select End Stop:</label>
+            <select id="destStop">
+                <option value="" disabled selected>Select End Stop</option>
+            </select>
+    
+            <button id="getStopsAwayBtn">Find Number of Stops Away</button>
+    
+            <div id="stopsresult"></div>
+        </div>
     </div>
 
     <div id="nontrivial2" class="content hidden">
