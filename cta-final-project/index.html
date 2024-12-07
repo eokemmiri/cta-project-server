@@ -91,47 +91,56 @@
         <h2>Nontrivial 3</h2>
         <div class="container">
             <h1>Choose Two Stops</h1>
+    
             <label for="startStop">Select Start Stop:</label>
             <select id="startStop">
-                <option value="14266">Ridge & Greenleaf</option>
-                <option value="17301">Sheridan & Lincoln</option>
-                <option value="14334">Ridge & Brummel</option>
-                <option value="3517">Howard & Ridge</option>
-                <option value="17295">Sheridan & Foster</option>
-                <option value="14262">Ridge & Main</option>
-                <option value="14692">Chicago Avenue & Davis</option>
-                <option value="12691">Ridge & Davis</option>
+                <option value="" disabled selected>Select Start Stop</option>
+                <optgroup label="Eastbound Stops">
+                    <option value="101">Sheridan & Lincoln</option>
+                    <option value="102">Sheridan & Foster</option>
+                    <option value="103">Chicago & Clark</option>
+                    <option value="104">Davis & Orrington</option>
+                    <option value="105">Ridge & Davis</option>
+                </optgroup>
+                <optgroup label="Westbound Stops">
+                    <option value="201">Dodge & Brummel</option>
+                    <option value="202">Howard & Ridge</option>
+                    <option value="203">Ridge & Main</option>
+                    <option value="204">Ridge & Greenleaf</option>
+                    <option value="205">Ridge & Oakton</option>
+                </optgroup>
             </select>
-
+    
             <label for="endStop">Select End Stop:</label>
             <select id="endStop">
-                <option value="14266">Ridge & Greenleaf</option>
-                <option value="17301">Sheridan & Lincoln</option>
-                <option value="14334">Ridge & Brummel</option>
-                <option value="3517">Howard & Ridge</option>
-                <option value="17295">Sheridan & Foster</option>
-                <option value="14262">Ridge & Main</option>
-                <option value="14692">Chicago Avenue & Davis</option>
-                <option value="12691">Ridge & Davis</option>
+                <option value="" disabled selected>Select End Stop</option>
             </select>
-
+    
             <button id="getDirectionBtn">Get Direction</button>
-
+    
             <div id="result"></div>
         </div>
     </div>
-
+    
     <script>
         function showPage(pageId) {
             // Hide all pages
             const pages = document.querySelectorAll('.content');
             pages.forEach(page => page.classList.add('hidden'));
-
+    
             // Show the selected page
-            document.getElementById(pageId).classList.remove('hidden');
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.remove('hidden');
+            }
         }
+    
+        // Show the home page by default on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
+        });
     </script>
-    <script src="script.js"></script>
-
+    
+    <script src="script.js"></script>    
 </body>
 </html>
