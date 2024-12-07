@@ -6,6 +6,7 @@ const getStops = require('./getStops');
 const getDirections = require('./getDirections'); 
 const getStopsAway = require('./stopsAway');
 const getDirForStops = require('./getDirForStops');
+const getPredictions = require('./getPredictions');
 
 
 
@@ -105,6 +106,26 @@ app.get('/stopsaway', async (req, res) => {
     } catch (error) {
         console.error('Error determining direction for stops:', error.message);
         res.status(500).json({ error: error.message });
+    }
+});
+
+//calls the getPredicitions function to retrieve bus arrival time for a specified stop
+app.get('/predict/:stopid', async (req, res) => {
+
+    const stopId = req.params.stopid; // Extract stopId from the URL
+
+    if (!stopId) {
+        return res.status(400).json({ error: 'Stop ID is required' });
+    }
+
+    try {
+        const predictions = await getPredictions(stopId);
+        res.status(200).json(predictions);
+    } 
+    
+    catch (error) {
+        console.error('Error getting predictions:', error);
+        res.status(500).json({ error: 'Failed to fetch prediction information' });
     }
 });
 
