@@ -15,7 +15,8 @@ Please download code file as .zip. Then unzip the file to locate associated file
 3. Build Docker image using build command.
 4. Run Docker image using run command.
 5. For MAC users run these commands:
-      6. chmod 755 *.bash      
+      6.
+        chmod 755 *.bash      
       ./docker-build.bash      
       ./docker-run.bash
 7. For Windows users run these commands:
