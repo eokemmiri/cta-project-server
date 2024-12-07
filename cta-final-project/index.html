@@ -57,12 +57,43 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+
+        .predictions-list {
+        margin-top: 20px;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+    }
+
+    .prediction-item {
+        margin: 5px 0;
+        padding: 5px;
+        background-color: #f8f9fa;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .error {
+        color: red;
+        font-weight: bold;
+    }
+
+        .stops-list {
+            margin-top: 20px;
+        }
+        .stop-item {
+            cursor: pointer;
+            padding: 5px 0;
+        }
+        .stop-item:hover {
+            text-decoration: underline;
+            color: blue;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>CTA Bus Tracker</h1>
+        <h1>201 CTA Bus Tracker</h1>
     </header>
 
     <nav>
@@ -84,7 +115,157 @@
 
     <div id="nontrivial2" class="content hidden">
         <h2>Nontrivial 2</h2>
-        <p>This page could contain the second non-trivial functionality.</p>
+         <h2> Estimate Bus Arrival Times </h2>
+        <p>This page allows you to specify bus arrival times by chooosing the route direction and stop id from the buttons below!</p>
+        <p>Click on Eastbound or Westbound to see associated stops along with their id numbers. Then, choose any stop to track bus arrival information!</p>
+
+         
+
+        <div id="app">
+            <button onclick="showStops('eastbound')">Eastbound</button>
+            <button onclick="showStops('westbound')">Westbound</button>
+            <div id="stops" class="stops-list"></div>
+            <div id="predictions" class="predictions-list"></div>
+        </div>
+
+        <script>
+            const stopsData = {
+                eastbound: [
+                    { stopId: '17301', stopName: 'Sheridan & Lincoln' },
+                    { stopId: '18357', stopName: 'Sheridan & Haven' },
+                    { stopId: '17295', stopName: 'Sheridan & Foster' },
+                    { stopId: '17302', stopName: 'Chicago & Sheridan' },
+                    { stopId: '15318', stopName: 'Chicago & Clark' },
+                    { stopId: '14403', stopName: 'Chicago Avenue & Church' },
+                    { stopId: '14692', stopName: 'Chicago Avenue & Davis' },
+                    { stopId: '14693', stopName: 'Davis & Orrington' },
+                    { stopId: '14405', stopName: 'Davis & Benson' },
+                    { stopId: '12686', stopName: 'Davis & Maple' },
+                    { stopId: '12687', stopName: 'Davis & Oak' },
+                    { stopId: '12691', stopName: 'Ridge & Davis' },
+                    { stopId: '12692', stopName: 'Ridge & Grove' },
+                    { stopId: '14271', stopName: 'Ridge & Lake' },
+                    { stopId: '14269', stopName: 'Ridge & Greenwood' },
+                    { stopId: '18709', stopName: 'Howard & Dempster' },
+                    { stopId: '14267', stopName: 'Ridge & Crain' },
+                    { stopId: '14265', stopName: 'Ridge & Greenleaf' },
+                    { stopId: '14263', stopName: 'Ridge & Lee' },
+                    { stopId: '12695', stopName: 'Ridge & Main' },
+                    { stopId: '14261', stopName: 'Ridge & Washington' },
+                    { stopId: '14259', stopName: 'Ridge & Monroe' },
+                    { stopId: '14257', stopName: 'Ridge & Seward' },
+                    { stopId: '14255', stopName: 'Ridge & Oakton' },
+                    { stopId: '13148', stopName: 'Ridge & Hull Terrace' },
+                    { stopId: '14338', stopName: 'Ridge & Mulford' },
+                    { stopId: '14334', stopName: 'Ridge & Brummel' },
+                    { stopId: '3629', stopName: 'Howard & Ridge' }
+                ],
+                westbound: [
+                    { stopId: '3517', stopName: 'Howard & Ridge' },
+                    { stopId: '14333', stopName: 'Ridge & Brummel' },
+                    { stopId: '18322', stopName: 'Ridge & Mulford' },
+                    { stopId: '13149', stopName: 'Ridge & Hull Terrace' },
+                    { stopId: '14270', stopName: 'Ridge & Austin' },
+                    { stopId: '14254', stopName: 'Ridge & Oakton' },
+                    { stopId: '14256', stopName: 'Ridge & Seward' },
+                    { stopId: '14258', stopName: 'Ridge & Monroe' },
+                    { stopId: '12694', stopName: 'Ridge & Washington' },
+                    { stopId: '14262', stopName: 'Ridge & Main' },
+                    { stopId: '14264', stopName: 'Ridge & Lee' },
+                    { stopId: '14266', stopName: 'Ridge & Greenleaf' },
+                    { stopId: '14267', stopName: 'Ridge & Crain' },
+                    { stopId: '14269', stopName: 'Ridge & Dempster' },
+                    { stopId: '14271', stopName: 'Ridge & Greenwood' },
+                    { stopId: '12692', stopName: 'Ridge & Lake' },
+                    { stopId: '12693', stopName: 'Ridge & Grove' },
+                    { stopId: '12690', stopName: 'Ridge & Davis' },
+                    { stopId: '12689', stopName: 'Ridge & Church' },
+                    { stopId: '12680', stopName: 'Church & Maple' },
+                    { stopId: '12708', stopName: 'Church & Benson' },
+                    { stopId: '12648', stopName: 'Church & Sherman' },
+                    { stopId: '3513', stopName: 'Church & Chicago Avenue' },
+                    { stopId: '18354', stopName: 'Sheridan & Emerson' },
+                    { stopId: '17296', stopName: 'Sheridan & Foster' },
+                    { stopId: '18355', stopName: 'Sheridan & Haven' },
+                    { stopId: '18356', stopName: 'Sheridan & Lincoln' }
+                ]
+            };
+   
+            function showStops(direction) {
+                const stopsDiv = document.getElementById('stops');
+                stopsDiv.innerHTML = ''; // Clear any existing content
+   
+                const stops = stopsData[direction];
+                stops.forEach(stop => {
+                    const stopDiv = document.createElement('div');
+                    stopDiv.className = 'stop-item';
+                    stopDiv.textContent = `${stop.stopName} (ID: ${stop.stopId})`;
+                    stopDiv.onclick = () => fetchPredictions(stop.stopId);
+                    stopsDiv.appendChild(stopDiv);
+                });
+            }
+
+           
+   
+            async function fetchPredictions(stopId) {
+
+                    //added new instance of div class
+                const predictionsDiv = document.getElementById('predictions');
+            predictionsDiv.innerHTML = ''; // Clear previous predictions
+
+            const heading = document.createElement('h3');
+            heading.textContent = `Predictions for Stop ID: ${stopId}`;
+            predictionsDiv.appendChild(heading);
+                try {
+
+                    //stayed the same
+                    const response = await fetch(`/predict/${stopId}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch predictions');
+                    }
+
+                    //stayed the same retrieving results
+                    const predictions = await response.json();
+
+                    //prev implementation, displays results as popup
+                    //alert(`Predictions for stop ${stopId}:\n` + JSON.stringify(predictions, null, 2));
+
+                    // actual predictions and not an error, display predictions to page
+                    if (predictions.predictions && predictions.predictions.length > 0) {
+                    predictions.predictions.forEach(prediction => {
+                        const predictionDiv = document.createElement('div');
+                        predictionDiv.className = 'prediction-item';
+                        predictionDiv.textContent = `
+                            Arrival: ${prediction.predicted_arrival},
+                            ETA: ${prediction.bus_arival_minutes} minutes,
+                            Route: ${prediction.route},
+                            Destination: ${prediction.destination}
+                        `;
+                        predictionsDiv.appendChild(predictionDiv);
+                    }); }
+
+                    //display an error or no predictions display
+                    else {
+                    const noPredictionsDiv = document.createElement('div');
+                    noPredictionsDiv.className = 'no-predictions';
+                    noPredictionsDiv.textContent = 'No predictions available for this stop.';
+                    predictionsDiv.appendChild(noPredictionsDiv);
+                }
+
+
+
+                } catch (error) {
+                    console.error(error.message);
+                    alert('Error fetching predictions');
+                }
+            }
+
+           
+
+        </script>
+
+
+        
     </div>
 
     <div id="nontrivial3" class="content hidden">
